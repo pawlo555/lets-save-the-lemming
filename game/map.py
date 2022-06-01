@@ -1,6 +1,5 @@
 from typing import List, Optional
 
-from game.lemming import Lemming
 from game.background import Background
 
 
@@ -21,14 +20,6 @@ class Map:
         if hot_air_values is not None:
             assert len(hot_air_values) == len(self.hot_air_values), "hot_air_values list has wrong size"
             self.hot_air_values = hot_air_values
-        self.player: Optional[Lemming] = None
-        self.start_position = self.find_start_position()
-
-    def add_player(self):
-        self.player = Lemming(self.start_position)
-
-    def remove_player(self):
-        self.player = None
 
     def find_start_position(self) -> (int, int):
         for i in range(len(self.elements)):
