@@ -3,6 +3,7 @@ from environment import Environment
 from enum import Enum
 from game.rewards.reward import Reward
 from game.engines.engine import Engine
+from game.background import Background
 
 
 class StateType(Enum):
@@ -29,4 +30,10 @@ class AgentRunner:
         return self.calc_state_type()
 
     def calc_state_type(self) -> StateType:
-        pass
+        tile = self.environment.map.get_tile_at_position(self.environment.agent_position)
+        if tile == Background.END:
+            return StateType.AGENT_WIN
+        elif tile == Background.TRAP:
+            return StateType.AGENT_LOSE
+        else:
+            return StateType.AGENT_ALIVE
