@@ -4,13 +4,15 @@ from typing import Dict
 import pygame
 import os
 
+from game.agents.agent import Move, Agent
 from game.map import Map
 from game.tiles_reader import read_tiles_from_file
 from game.background import Background
 from game.experiment_runner import ExperimentRunner
 from game.environment import Environment
 from game.agents.lemming import RandomLemming
-from game.reward import SillyReward
+from game.agents.reinforcement_agent import ReinforcementAgent
+from game.reward import NormalReward, Reward
 from game.logger import FileLogger
 from game.engines.engine import SimpleEngine
 
@@ -20,12 +22,14 @@ SQUARE_SIZE = 40
 def main():
     pygame.init()
     tiles = read_tiles_from_file("resources/map.txt")
-    game_map = Map(tiles, hot_air_values=[0, 2, 0, 0, 0, 5, 0, 0])
+    game_map = Map(tiles, hot_air_values=[0, 2, 0, 0, 0, 5, 0, 0, 0, 0])
     size = game_map.get_size()
 
     turn_per_agent = 30
     environment = Environment(game_map, game_map.start_position, turn_per_agent)
-    experiment_runner = ExperimentRunner(environment, RandomLemming(), SillyReward(), SimpleEngine(environment),
+    agent: Agent = ReinforcementAgent([Move.LEFT, Move.RIGHT], size, 0.5, 0.95, 0.05)
+    reward: Reward = NormalReward()
+    experiment_runner = ExperimentRunner(environment, agent, reward, SimpleEngine(),
                                          FileLogger("logs.txt"))
 
     screen: pygame.Surface = pygame.display.set_mode(size)
@@ -37,7 +41,6 @@ def main():
     # infinite loop
     while True:
         for event in pygame.event.get():
-
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
