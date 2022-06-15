@@ -27,7 +27,7 @@ class SimpleEngine(Engine):
             self.perform_fall()
         if self.environment.map.get_tile_at_position(self.environment.agent_position) == Background.HOT_AIR:
             self.perform_hot_air_fly()
-        self.environment.turn_to_death -= 1
+        self.environment.time_to_death -= 1
         return self.environment
 
     def perform_move_left(self):

@@ -17,11 +17,11 @@ class FileLogger(Logger):
 
     def log_win(self, time):
         self.file.write("WIN," + str(time) + "\n")
-        print("WIN," + str(time) + "\n")
+        print("WIN,", time)
 
     def log_lose(self, time):
         self.file.write("LOST," + str(time) + "\n")
-        print("LOST," + str(time) + "\n")
+        print("LOST,", time)
 
     def close_logger(self):
         self.file.close()

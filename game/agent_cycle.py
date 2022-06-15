@@ -27,9 +27,13 @@ class AgentRunner:
 
     def calc_state_type(self, environment: Environment) -> StateType:
         tile = environment.map.get_tile_at_position(environment.agent_position)
-        if tile == Background.END or environment.turn_to_death == 0:
+        if tile == Background.END:
             return StateType.AGENT_WIN
         elif tile == Background.TRAP:
+            print("TRAP")
+            return StateType.AGENT_LOSE
+        elif environment.time_to_death == 0:
+            print("TIME")
             return StateType.AGENT_LOSE
         else:
             return StateType.AGENT_ALIVE

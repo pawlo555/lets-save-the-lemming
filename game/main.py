@@ -43,7 +43,6 @@ def main():
                 quit()
         experiment_runner.next()
         time.sleep(0.05)
-        print(experiment_runner.environment.agent_position)
         display_map(screen, images, environment, lemming_image)
         pygame.display.update()
 

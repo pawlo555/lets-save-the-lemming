@@ -23,7 +23,7 @@ class SillyReward(Reward):
 class NormalReward(Reward):
     def get_reward(self, environment: Environment, move: Move, new_environment: Environment, state: StateType) -> int:
         state_reward = self.calc_state_reward(state)
-        turn_penalty = environment.turn_to_death - environment.time_to_death
+        turn_penalty = environment.total_time_to_death - environment.time_to_death
         difference = 0 #self.calc_distance(environment.agent_position, environment.map)
         return turn_penalty + difference + state_reward
 

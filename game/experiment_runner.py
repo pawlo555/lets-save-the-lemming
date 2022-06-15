@@ -14,7 +14,7 @@ class ExperimentRunner:
         self.logger: Logger = logger
         self.turn_for_agent: int = turn_for_agent
 
-        self.environment.prepare_environment_for_new_agent(self.turn_for_agent)
+        self.environment.prepare_environment_for_new_agent()
         self.agent_runner: AgentRunner = AgentRunner(environment, agent, reward, engine)
 
     def next(self):
@@ -27,12 +27,12 @@ class ExperimentRunner:
             self.on_survive()
 
     def on_lost(self):
-        self.logger.log_lose(self.turn_for_agent-self.environment.turn_to_death)
-        self.environment.prepare_environment_for_new_agent(self.turn_for_agent)
+        self.logger.log_lose(self.environment.time_to_death)
+        self.environment.prepare_environment_for_new_agent()
 
     def on_win(self):
-        self.logger.log_win(self.turn_for_agent-self.environment.turn_to_death)
-        self.environment.prepare_environment_for_new_agent(self.turn_for_agent)
+        self.logger.log_win(self.environment.time_to_death)
+        self.environment.prepare_environment_for_new_agent()
 
     def on_survive(self):
         pass
