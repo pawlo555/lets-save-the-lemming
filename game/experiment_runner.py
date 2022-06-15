@@ -1,8 +1,9 @@
 from game.environment import Environment
 from game.agents.agent import Agent
-from game.rewards.reward import Reward
+from game.reward import Reward
 from game.engines.engine import Engine
-from game.agent_cycle import StateType, AgentRunner
+from game.agent_cycle import AgentRunner
+from game.states import StateType
 from game.logger import Logger
 
 
@@ -31,6 +32,7 @@ class ExperimentRunner:
 
     def on_win(self):
         self.logger.log_win(self.turn_for_agent-self.environment.turn_to_death)
+        self.environment.prepare_environment_for_new_agent(self.turn_for_agent)
 
     def on_survive(self):
         pass

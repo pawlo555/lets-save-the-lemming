@@ -20,5 +20,5 @@ class Agent(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def update_policy(self, reward: int) -> None:
+    def update_policy(self, reward: int, move: Move, prev_environment: Environment, new_environment: Environment) -> None:
         raise NotImplementedError

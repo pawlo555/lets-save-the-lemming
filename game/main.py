@@ -1,3 +1,4 @@
+import time
 from typing import Dict
 
 import pygame
@@ -9,7 +10,7 @@ from game.background import Background
 from game.experiment_runner import ExperimentRunner
 from game.environment import Environment
 from game.agents.lemming import RandomLemming
-from game.rewards.reward import SillyReward
+from game.reward import SillyReward
 from game.logger import FileLogger
 from game.engines.engine import SimpleEngine
 
@@ -19,11 +20,11 @@ SQUARE_SIZE = 40
 def main():
     pygame.init()
     tiles = read_tiles_from_file("resources/map.txt")
-    game_map = Map(tiles)
+    game_map = Map(tiles, hot_air_values=[0, 2, 0, 0, 0, 5, 0, 0])
     size = game_map.get_size()
 
     turn_per_agent = 30
-    environment = Environment(game_map, game_map.find_start_position(), turn_per_agent)
+    environment = Environment(game_map, game_map.start_position, turn_per_agent)
     experiment_runner = ExperimentRunner(environment, RandomLemming(), SillyReward(), SimpleEngine(environment),
                                          FileLogger("logs.txt"))
 
@@ -41,6 +42,7 @@ def main():
                 pygame.quit()
                 quit()
         experiment_runner.next()
+        time.sleep(0.05)
         print(experiment_runner.environment.agent_position)
         display_map(screen, images, environment, lemming_image)
         pygame.display.update()
@@ -69,7 +71,7 @@ def display_map(screen: pygame.Surface, images: Dict[Background, pygame.Surface]
     for i, row in enumerate(environment.map.elements):
         for j, element in enumerate(row):
             display_tile(screen, images, element, j*SQUARE_SIZE, i*SQUARE_SIZE)
-    screen.blit(lemming_image, (environment.agent_position[0]*SQUARE_SIZE, environment.agent_position[1]*SQUARE_SIZE))
+    screen.blit(lemming_image, (environment.agent_position[1]*SQUARE_SIZE, environment.agent_position[0]*SQUARE_SIZE))
 
 
 if __name__ == '__main__':

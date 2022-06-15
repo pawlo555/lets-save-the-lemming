@@ -5,7 +5,7 @@ from game.environment import Environment
 
 
 class RandomLemming(Agent):
-    def update_policy(self, reward: int) -> None:
+    def update_policy(self, reward: int, move: Move, prev_environment: Environment, new_environment: Environment) -> None:
         pass
 
     def move(self, environment: Environment) -> Move:

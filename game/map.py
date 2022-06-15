@@ -18,13 +18,15 @@ class Map:
         if hot_air_values is not None:
             assert len(hot_air_values) == len(self.hot_air_values), "hot_air_values list has wrong size"
             self.hot_air_values = hot_air_values
+        self.start_position = self.find_position(Background.START)
+        self.end_position = self.find_position(Background.END)
 
-    def find_start_position(self) -> (int, int):
+    def find_position(self, element_name: Background) -> (int, int):
         for i in range(len(self.elements)):
             for j in range(len(self.elements[0])):
-                if self.elements[i][j] == Background.START:
+                if self.elements[i][j] == element_name:
                     return i, j
-        raise RuntimeError("Map doesnt have a start point")
+        raise RuntimeError("Map doesnt have ", element_name)
 
     def get_size(self) -> (int, int):
         return len(self.elements[0])*self.SQUARE_SIZE, len(self.elements)*self.SQUARE_SIZE
