@@ -17,6 +17,7 @@ from game.logger import FileLogger
 from game.engines.engine import SimpleEngine
 
 SQUARE_SIZE = 40
+EXPERIMENTS = 5
 
 
 def main():
@@ -26,11 +27,12 @@ def main():
     size = game_map.get_size()
 
     turn_per_agent = 100
+    current_experiment = 1
     environment = Environment(game_map, game_map.start_position, turn_per_agent)
     agent: Agent = ReinforcementAgent([Move.LEFT, Move.RIGHT], size, 0.5, 0.95, 0.05)
     reward: Reward = NormalReward()
     experiment_runner = ExperimentRunner(environment, agent, reward, SimpleEngine(),
-                                         FileLogger("logs.txt"), episodes=10)
+                                         FileLogger(f"log/logs_{current_experiment}.txt"), episodes=5)
 
     screen: pygame.Surface = pygame.display.set_mode(size)
 
@@ -40,14 +42,23 @@ def main():
 
     # infinite loop
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-        experiment_runner.next()
-        time.sleep(0.05)
-        display_map(screen, images, environment, lemming_image)
-        pygame.display.update()
+        try:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+            experiment_runner.next()
+            #time.sleep(0.05)
+            display_map(screen, images, environment, lemming_image)
+            pygame.display.update()
+        except TimeoutError:
+            if current_experiment < EXPERIMENTS:
+                current_experiment += 1
+                experiment_runner = ExperimentRunner(environment, agent, reward, SimpleEngine(),
+                                                     FileLogger(f"log/logs_{current_experiment}.txt"), episodes=5)
+            else:
+                raise TimeoutError("Experiments ends")
+
 
 
 def load_images() -> Dict[Background, pygame.Surface]:
