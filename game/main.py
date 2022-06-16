@@ -22,15 +22,15 @@ SQUARE_SIZE = 40
 def main():
     pygame.init()
     tiles = read_tiles_from_file("resources/map.txt")
-    game_map = Map(tiles, hot_air_values=[0, 2, 0, 0, 0, 5, 0, 0, 0, 0])
+    game_map = Map(tiles, hot_air_values=[2]*12)
     size = game_map.get_size()
 
-    turn_per_agent = 30
+    turn_per_agent = 100
     environment = Environment(game_map, game_map.start_position, turn_per_agent)
     agent: Agent = ReinforcementAgent([Move.LEFT, Move.RIGHT], size, 0.5, 0.95, 0.05)
     reward: Reward = NormalReward()
     experiment_runner = ExperimentRunner(environment, agent, reward, SimpleEngine(),
-                                         FileLogger("logs.txt"))
+                                         FileLogger("logs.txt"), episodes=10)
 
     screen: pygame.Surface = pygame.display.set_mode(size)
 
