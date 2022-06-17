@@ -23,7 +23,7 @@ class ReinforcementAgent(Agent):
             return self.random_move()
         else:
             move, _ = self.find_best_move(environment.agent_position)
-            print("Move: ", move)
+            #print("Move: ", move)
             return move
 
     def update_policy(self, reward: int, move: Move, prev_env: Environment, new_env: Environment) -> None:

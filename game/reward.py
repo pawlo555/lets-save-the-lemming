@@ -28,7 +28,7 @@ class NormalReward(Reward):
         trap_penalty = -1000 if new_environment.map.get_tile_at_position(new_environment.agent_position) == Background.TRAP else 0
         turn_penalty = - environment.time_to_death
         difference = 0 #self.calc_distance(environment.agent_position, environment.map) - self.calc_distance(new_environment.agent_position, new_environment.map)
-        print("Reward:", state_reward, turn_penalty, difference)
+        #print("Reward:", state_reward, turn_penalty, difference)
         return turn_penalty + 2 * difference + state_reward + trap_penalty
 
     def calc_distance(self, position: (int, int), map: Map):

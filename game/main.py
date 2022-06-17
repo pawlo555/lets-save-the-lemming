@@ -17,7 +17,8 @@ from game.logger import FileLogger
 from game.engines.engine import SimpleEngine
 
 SQUARE_SIZE = 40
-EXPERIMENTS = 5
+EXPERIMENTS = 10
+EPISODES = 100
 
 
 def main():
@@ -29,10 +30,11 @@ def main():
     turn_per_agent = 100
     current_experiment = 1
     environment = Environment(game_map, game_map.start_position, turn_per_agent)
-    agent: Agent = ReinforcementAgent([Move.LEFT, Move.RIGHT], size, 0.5, 0.95, 0.05)
+    agent: Agent = RandomLemming()
+#    agent: Agent = ReinforcementAgent([Move.LEFT, Move.RIGHT], size, 0.5, 0.95, 0.05)
     reward: Reward = NormalReward()
     experiment_runner = ExperimentRunner(environment, agent, reward, SimpleEngine(),
-                                         FileLogger(f"log/logs_{current_experiment}.txt"), episodes=5)
+                                         FileLogger(f"log/logs_{current_experiment}.txt"), episodes=EPISODES)
 
     screen: pygame.Surface = pygame.display.set_mode(size)
 
@@ -55,7 +57,7 @@ def main():
             if current_experiment < EXPERIMENTS:
                 current_experiment += 1
                 experiment_runner = ExperimentRunner(environment, agent, reward, SimpleEngine(),
-                                                     FileLogger(f"log/logs_{current_experiment}.txt"), episodes=5)
+                                                     FileLogger(f"log/logs_{current_experiment}.txt"), episodes=EPISODES)
             else:
                 raise TimeoutError("Experiments ends")
 
