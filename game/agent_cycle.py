@@ -1,8 +1,8 @@
 import copy
 import numpy as np
 
-from agents.agent import Agent
-from environment import Environment
+from game.agents.agent import Agent
+from game.environment import Environment
 
 from game.reward import Reward
 from game.states import StateType

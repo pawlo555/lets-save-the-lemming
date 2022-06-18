@@ -30,6 +30,8 @@ class ReinforcementAgent(Agent):
         #print(reward, move)
         pos = prev_env.agent_position
         _, expected_reward = self.find_best_move(new_env.agent_position)
+        #new_move = self.move(new_env)
+        #expected_reward = self.Q[new_move][new_env.agent_position[0], new_env.agent_position[1]]
         prev_q_value = self.Q[move][pos[0], pos[1]]
         #print(pos, self.Q[move][pos[0], pos[1]])
         self.Q[move][pos[0], pos[1]] += self.alpha * (reward + self.discount_factor*expected_reward - prev_q_value)

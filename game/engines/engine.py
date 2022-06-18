@@ -48,7 +48,7 @@ class SimpleEngine(Engine):
         j = environment.agent_position[1]
         how_much_up = environment.map.hot_air_values[j]
         new_i = i
-        while how_much_up and environment.map.get_tile_at_position((new_i, j)) == Background.HOT_AIR and new_i > 0:
+        while how_much_up and environment.map.get_tile_at_position((new_i, j)) == Background.HOT_AIR and new_i >= 0:
             new_i -= 1
             how_much_up -= 1
         if environment.map.get_tile_at_position((new_i, j)) == Background.ROCK:
